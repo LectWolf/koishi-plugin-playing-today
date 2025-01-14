@@ -9,7 +9,7 @@ commands:
       emptyLibrary: |-
         当前选择游戏库尚未添加游戏!
       hascache: |-
-        先玩上一个抽出的游戏把
+        先玩上一个抽出的游戏吧!
         【{game}】
       success: |-
         抽取成功，
