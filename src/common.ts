@@ -8,9 +8,6 @@ export function apply(ctx: Context, config: Config) {
     .alias("今天玩什么")
     .action(async ({ session }) => {
       let sid = "G" + session.guildId;
-      if (session.type === "private") {
-        sid = "P" + session.userId;
-      }
       // 获取选择的游戏库
       const [slectLibrary] = await ctx.database.get("star_game_select", {
         sid: sid,
@@ -18,7 +15,7 @@ export function apply(ctx: Context, config: Config) {
       if (!slectLibrary) {
         return reply(session, ".notexist");
       }
-      let key = "P" + session.userId;
+      let key = "P" + session.guildId + "::" + session.userId;
       if (session.type === "group") {
         const groupInfo = await session.bot.internal.getGroupInfo(
           session.guildId,
@@ -68,15 +65,13 @@ export function apply(ctx: Context, config: Config) {
         return reply(session, ".format");
       }
       const [library] = await ctx.database.get("star_game_library", {
+        group: session.guildId,
         name: t_library,
       });
       if (!library) {
         return reply(session, ".notexist", { library: t_library });
       }
       let sid = "G" + session.guildId;
-      if (session.type === "private") {
-        sid = "P" + session.userId;
-      }
       const [existingGame] = await ctx.database.get("star_game_select", {
         sid: sid,
       });
@@ -98,7 +93,7 @@ export function apply(ctx: Context, config: Config) {
     .command("create_library <名字>")
     .alias("创建游戏库")
     .action(async ({ session }, t_name) => {
-      if (!config.admin.includes(session.userId)) {
+      if (!checkPermission(session)) {
         // 无权限
         return;
       }
@@ -107,12 +102,15 @@ export function apply(ctx: Context, config: Config) {
       }
       // 判断是否存在
       const [library] = await ctx.database.get("star_game_library", {
+        group: session.guildId,
         name: t_name,
       });
       if (library) {
         return reply(session, ".hasexist", { library: t_name });
       }
-      await ctx.database.upsert("star_game_library", [{ name: t_name }]);
+      await ctx.database.upsert("star_game_library", [
+        { group: session.guildId, name: t_name },
+      ]);
       return reply(session, ".success", { library: t_name });
     });
 
@@ -121,7 +119,7 @@ export function apply(ctx: Context, config: Config) {
     .command("remove_library <库名>")
     .alias("删除游戏库")
     .action(async ({ session }, t_name) => {
-      if (!config.admin.includes(session.userId)) {
+      if (!checkPermission(session)) {
         // 无权限
         return;
       }
@@ -130,12 +128,16 @@ export function apply(ctx: Context, config: Config) {
       }
       // 判断是否存在
       const [library] = await ctx.database.get("star_game_library", {
+        group: session.guildId,
         name: t_name,
       });
       if (!library) {
         return reply(session, ".notexist", { library: t_name });
       }
-      await ctx.database.remove("star_game_library", { name: t_name });
+      await ctx.database.remove("star_game_library", {
+        group: session.guildId,
+        name: t_name,
+      });
       return reply(session, ".success", { library: t_name });
     });
 
@@ -144,7 +146,9 @@ export function apply(ctx: Context, config: Config) {
     .command("list_libraries")
     .alias("游戏库列表")
     .action(async ({ session }) => {
-      const libraries = await ctx.database.get("star_game_library", {});
+      const libraries = await ctx.database.get("star_game_library", {
+        group: session.guildId,
+      });
       if (libraries.length === 0) {
         return reply(session, ".empty");
       }
@@ -159,7 +163,11 @@ export function apply(ctx: Context, config: Config) {
     .command("view_library <库名>")
     .alias("查看游戏库")
     .action(async ({ session }, t_name) => {
+      if (!t_name) {
+        return reply(session, ".format");
+      }
       const [library] = await ctx.database.get("star_game_library", {
+        group: session.guildId,
         name: t_name,
       });
       // 游戏库不存在
@@ -183,7 +191,7 @@ export function apply(ctx: Context, config: Config) {
     .command("add_game <库名> <游戏名字>")
     .alias("添加游戏")
     .action(async ({ session }, t_library, t_game) => {
-      if (!config.admin.includes(session.userId)) {
+      if (!checkPermission(session)) {
         // 无权限
         return;
       }
@@ -192,6 +200,7 @@ export function apply(ctx: Context, config: Config) {
         return reply(session, ".format");
       }
       const [library] = await ctx.database.get("star_game_library", {
+        group: session.guildId,
         name: t_library,
       });
       // 库不存在
@@ -226,7 +235,7 @@ export function apply(ctx: Context, config: Config) {
     .command("remove_game <库名> <游戏名字>")
     .alias("删除游戏")
     .action(async ({ session }, t_library, t_game) => {
-      if (!config.admin.includes(session.userId)) {
+      if (!checkPermission(session)) {
         // 无权限
         return;
       }
@@ -234,6 +243,7 @@ export function apply(ctx: Context, config: Config) {
         return reply(session, ".format");
       }
       const [library] = await ctx.database.get("star_game_library", {
+        group: session.guildId,
         name: t_library,
       });
       if (!library) {
@@ -258,6 +268,18 @@ export function apply(ctx: Context, config: Config) {
         game: t_game,
       });
     });
+}
+
+// 判断权限
+export function checkPermission(session: Session) {
+  const { role } = session.bot.internal.getGroupMemberInfo(
+    session.guildId,
+    session.userId
+  );
+  if (role == "owner" || role == "admin") {
+    return true;
+  }
+  return false;
 }
 
 // 回复

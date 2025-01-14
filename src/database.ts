@@ -14,6 +14,7 @@ export function initDataBase(ctx: Context, config: Config) {
     "star_game_library",
     {
       id: "unsigned",
+      group: "string",
       name: "string",
     },
     {
@@ -48,6 +49,7 @@ export function initDataBase(ctx: Context, config: Config) {
 // 绑定信息
 export interface StarGameLibrary {
   id: number;
+  group: string;
   name: string;
 }
 export interface StarGame {

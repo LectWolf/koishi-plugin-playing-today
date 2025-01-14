@@ -19,5 +19,8 @@ export function apply(ctx: Context, config: Config) {
   ctx.i18n.define("zh-CN", zh);
   initDataBase(ctx, config);
 
-  ctx.platform("onebot").plugin(common, config);
+  ctx
+    .intersect((session) => session.type === "group")
+    .platform("onebot")
+    .plugin(common, config);
 }
