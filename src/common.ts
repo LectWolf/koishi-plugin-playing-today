@@ -93,7 +93,7 @@ export function apply(ctx: Context, config: Config) {
     .command("create_library <名字>")
     .alias("创建游戏库")
     .action(async ({ session }, t_name) => {
-      if (!checkPermission(session)) {
+      if (!(await checkPermission(session))) {
         // 无权限
         return;
       }
@@ -119,7 +119,7 @@ export function apply(ctx: Context, config: Config) {
     .command("remove_library <库名>")
     .alias("删除游戏库")
     .action(async ({ session }, t_name) => {
-      if (!checkPermission(session)) {
+      if (!(await checkPermission(session))) {
         // 无权限
         return;
       }
@@ -191,7 +191,7 @@ export function apply(ctx: Context, config: Config) {
     .command("add_game <库名> <游戏名字>")
     .alias("添加游戏")
     .action(async ({ session }, t_library, t_game) => {
-      if (!checkPermission(session)) {
+      if (!(await checkPermission(session))) {
         // 无权限
         return;
       }
@@ -235,7 +235,7 @@ export function apply(ctx: Context, config: Config) {
     .command("remove_game <库名> <游戏名字>")
     .alias("删除游戏")
     .action(async ({ session }, t_library, t_game) => {
-      if (!checkPermission(session)) {
+      if (!(await checkPermission(session))) {
         // 无权限
         return;
       }
@@ -271,8 +271,8 @@ export function apply(ctx: Context, config: Config) {
 }
 
 // 判断权限
-export function checkPermission(session: Session) {
-  const { role } = session.bot.internal.getGroupMemberInfo(
+export async function checkPermission(session: Session) {
+  const { role } = await session.bot.internal.getGroupMemberInfo(
     session.guildId,
     session.userId
   );
