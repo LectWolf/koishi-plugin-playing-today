@@ -1,0 +1,22 @@
+{
+  "name": "koishi-plugin-playing-today",
+  "description": "因为星星有选择困难症，所以有了这个插件",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {},
+  "keywords": [
+    "chatbot",
+    "koishi",
+    "plugin"
+  ],
+  "devDependencies": {},
+  "peerDependencies": {
+    "koishi": "^4.18.0"
+  }
+}
