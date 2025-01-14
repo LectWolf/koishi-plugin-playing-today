@@ -1,0 +1,87 @@
+commands:
+  today_play:
+    description: 抽取今天要玩的游戏
+    messages:
+      notexist: |-
+        你还没有选择游戏库
+        请先使用 类型 <库名>
+        选择游戏库
+      emptyLibrary: |-
+        当前选择游戏库尚未添加游戏!
+      hascache: |-
+        先玩上一个抽出的游戏把
+        【{game}】
+      success: |-
+        抽取成功，
+        今天要玩的是 【{game}】
+
+  select_library:
+    description: 选择游戏库
+    messages:
+      format: "格式: 类型 <名字>"
+      notexist: |-
+        游戏库【{library}】不存在
+        请使用 游戏库列表 查看库名
+      success: |-
+        已选定游戏库 【{library}】
+
+  create_library:
+    description: 创建游戏库
+    messages:
+      format: "格式: 创建游戏库 <名字>"
+      hasexist: |-
+        游戏库【{library}】已存在
+      success: |-
+        已成功创建游戏库 【{library}】
+
+  list_libraries:
+    description: 列出所有游戏库
+    messages:
+      empty: |-
+        没有可用的游戏库
+      success: |-
+        ——【游戏库列表】——
+        {libraryList}
+
+  view_library:
+    description: 查看指定游戏库的内容
+    messages:
+      format: "格式: 查看游戏库 <名字>"
+      notexist: |-
+        游戏库【{library}】不存在
+      empty: |-
+        游戏库【{library}】为空
+      success: |-
+        ——【{library}游戏库】——
+        {gameList}
+
+  add_game:
+    description: 添加游戏到指定游戏库
+    messages:
+      format: "格式: 添加游戏 <库名字> <游戏名字>"
+      librarynotexist: |-
+        游戏库【{library}】不存在
+      gameexist: |-
+        游戏【{game}】已存在于 【{library}】
+      success: |-
+        已成功添加游戏 【{game}】 到 【{library}】
+
+  remove_game:
+    description: 从指定游戏库中删除游戏
+    messages:
+      format: "格式: 删除游戏 <库名字> <游戏名字>"
+      librarynotexist: |-
+        游戏库【{library}】不存在
+      gameexist: |-
+        游戏【{game}】不存在于 【{library}】
+      success: |-
+        已成功删除游戏 【{game}】 从 【{library}】
+
+  remove_library:
+    description: 删除指定游戏库
+    messages:
+      format: "格式: 删除游戏库 <库名字>"
+      notexist: |-
+        游戏库【{library}】不存在
+      success: |-
+        已清空游戏库 【{library}】

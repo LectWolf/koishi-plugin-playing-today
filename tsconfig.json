@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "rootDir": "src",
     "outDir": "lib",
     "target": "es2022",
@@ -14,7 +15,6 @@
     "jsx": "react-jsx",
     "jsxImportSource": "@satorijs/element",
     "types": [
-      "node",
       "yml-register/types"
     ]
   },
