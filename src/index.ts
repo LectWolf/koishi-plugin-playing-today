@@ -20,7 +20,7 @@ export function apply(ctx: Context, config: Config) {
   initDataBase(ctx, config);
 
   ctx
-    .intersect((session) => session.type === "group")
+    .intersect((session) => session.subtype === "group")
     .platform("onebot")
     .plugin(common, config);
 }
