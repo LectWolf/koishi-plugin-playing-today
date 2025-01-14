@@ -4,7 +4,7 @@ commands:
     messages:
       notexist: |-
         你还没有选择游戏库
-        请先使用 类型 <库名>
+        请先使用 类型 [库名]
         选择游戏库
       emptyLibrary: |-
         当前选择游戏库尚未添加游戏!
@@ -18,7 +18,7 @@ commands:
   select_library:
     description: 选择游戏库
     messages:
-      format: "格式: 类型 <名字>"
+      format: "格式: 类型 [名字]"
       notexist: |-
         游戏库【{library}】不存在
         请使用 游戏库列表 查看库名
@@ -28,7 +28,7 @@ commands:
   create_library:
     description: 创建游戏库
     messages:
-      format: "格式: 创建游戏库 <名字>"
+      format: "格式: 创建游戏库 [名字]"
       hasexist: |-
         游戏库【{library}】已存在
       success: |-
@@ -46,7 +46,7 @@ commands:
   view_library:
     description: 查看指定游戏库的内容
     messages:
-      format: "格式: 查看游戏库 <名字>"
+      format: "格式: 查看游戏库 [名字]"
       notexist: |-
         游戏库【{library}】不存在
       empty: |-
@@ -58,7 +58,7 @@ commands:
   add_game:
     description: 添加游戏到指定游戏库
     messages:
-      format: "格式: 添加游戏 <库名字> <游戏名字>"
+      format: "格式: 添加游戏 [库名字] [游戏名字]"
       librarynotexist: |-
         游戏库【{library}】不存在
       gameexist: |-
@@ -69,7 +69,7 @@ commands:
   remove_game:
     description: 从指定游戏库中删除游戏
     messages:
-      format: "格式: 删除游戏 <库名字> <游戏名字>"
+      format: "格式: 删除游戏 [库名字] [游戏名字]"
       librarynotexist: |-
         游戏库【{library}】不存在
       gameexist: |-
@@ -80,7 +80,7 @@ commands:
   remove_library:
     description: 删除指定游戏库
     messages:
-      format: "格式: 删除游戏库 <库名字>"
+      format: "格式: 删除游戏库 [库名字]"
       notexist: |-
         游戏库【{library}】不存在
       success: |-

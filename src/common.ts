@@ -52,8 +52,9 @@ export function apply(ctx: Context, config: Config) {
       // 设置缓存 2小时
       await ctx.cache.set(
         `playing_today_${key}`,
-        `${randomGame.id}`,
-        2 * Time.hour
+        `${slectLibrary.library_id}`,
+        randomGame.id,
+        config.cooldown * Time.minute
       );
       return reply(session, ".success", { game: randomGame.name });
     });

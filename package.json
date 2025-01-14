@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-playing-today",
   "description": "因为星星有选择困难症，所以有了这个插件",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "contributors": [
     "LectWolf <2242299685@qq.com>"
   ],
